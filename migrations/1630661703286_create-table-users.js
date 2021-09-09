@@ -23,6 +23,9 @@ exports.up = (pgm) => {
             type: 'TEXT',
             notNull: true,
         },
+        photo_profile: {
+            type: 'TEXT',
+        },
     });
 
     pgm.addConstraint(

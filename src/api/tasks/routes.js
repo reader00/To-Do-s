@@ -8,6 +8,14 @@ const routes = (handler) => [
         },
     },
     {
+        method: 'PUT',
+        path: '/tasks/{taskId}',
+        handler: handler.putTaskStatusHandler,
+        options: {
+            auth: 'todo_list_strategy',
+        },
+    },
+    {
         method: 'DELETE',
         path: '/tasks/{taskId}',
         handler: handler.deleteTaskByIdHandler,

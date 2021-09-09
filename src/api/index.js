@@ -22,11 +22,19 @@ const tasks = require('./tasks');
 const TasksService = require('../service/postgres/TasksService');
 const tasksValidator = require('../validator/tasks');
 
+// Import upload plugin
+const uploads = require('./uploads');
+const StorageService = require('../service/storage/StorageService');
+const UploadsValidator = require('../validator/uploads');
+
 // Create instance
 const usersService = new UsersService();
 const authenticationsService = new AuthenticationsService();
 const toDosService = new ToDosService();
 const tasksService = new TasksService(toDosService);
+const storageService = new StorageService(
+    path.resolve(__dirname, './uploads/file/pictures')
+);
 
 module.exports = [
     {
@@ -58,6 +66,14 @@ module.exports = [
         options: {
             service: tasksService,
             validator: tasksValidator,
+        },
+    },
+    {
+        plugin: uploads,
+        options: {
+            service: storageService,
+            usersService,
+            validator: UploadsValidator,
         },
     },
 ];

@@ -28,6 +28,27 @@ class TasksHandler {
         return res;
     }
 
+    async putTaskStatusHandler(req, h) {
+        const { taskId } = req.params;
+
+        const { status } = req.payload;
+        const { id: owner } = req.auth.credentials;
+
+        const task = await this._service.updateTaskStatus(
+            taskId,
+            status,
+            owner
+        );
+
+        const res = h.response({
+            status: 'success',
+            message: 'Task status updated',
+            data: task,
+        });
+        res.code(200);
+        return res;
+    }
+
     async deleteTaskByIdHandler(req, h) {
         const { taskId, any } = req.params;
 
@@ -39,7 +60,7 @@ class TasksHandler {
             status: 'success',
             message: 'Task deleted',
         });
-        res.code(200);
+        res.code(204);
         return res;
     }
 }

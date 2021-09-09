@@ -50,9 +50,29 @@ class TasksService {
         return result.rows;
     }
 
+    async updateTaskStatus(taskId, status, owner) {
+        // Is user have access to To-do
+        // await this._toDosService.verifyToDoOwner(toDoId, owner);
+
+        const query = {
+            text: 'UPDATE tasks SET status = $1 WHERE id = $2 RETURNING id, name, status',
+            values: [status, taskId],
+        };
+
+        const result = await this._pool.query(query);
+
+        if (!result.rowCount) {
+            throw new InvariantError(
+                'Failed to change task status. Id not found'
+            );
+        }
+
+        return result.rows[0];
+    }
+
     async deleteTaskById(taskId, owner) {
         // Is user have access to To-do
-        await this._toDosService.verifyToDoOwner(toDoId, owner);
+        // await this._toDosService.verifyToDoOwner(toDoId, owner);
 
         const query = {
             text: 'DELETE FROM tasks WHERE id = $1',

@@ -4,6 +4,7 @@ require('dotenv').config();
 // Import Hapi package
 const Hapi = require('@hapi/hapi');
 const Jwt = require('@hapi/jwt');
+const Inert = require('@hapi/inert');
 
 // Import api as plugins
 const plugins = require('./api');
@@ -30,6 +31,9 @@ const init = async () => {
     await server.register([
         {
             plugin: Jwt,
+        },
+        {
+            plugin: Inert,
         },
     ]);
 

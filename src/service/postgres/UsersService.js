@@ -68,6 +68,37 @@ class UsersService {
 
         return result.rows[0].id;
     }
+
+    async updatePhotoProfile(photoProfileUrl, id) {
+        const query = {
+            text: 'UPDATE users SET photo_profile = $1 WHERE id = $2 RETURNING id',
+            values: [photoProfileUrl, id],
+        };
+
+        const result = await this._pool.query(query);
+
+        if (!result.rowCount) {
+            throw new InvariantError('Failed to update photo profile.');
+        }
+
+        return result.rows[0].id;
+    }
+
+    async getUserById(id) {
+        const query = {
+            text: 'SELECT id, username, email, photo_profile FROM users WHERE id = $1',
+            values: [id],
+        };
+
+        const result = await this._pool.query(query);
+
+        if (!result.rowCount) {
+            throw new NotFoundError('Id not found!');
+        }
+
+        console.log(result.rows);
+        return result.rows[0];
+    }
 }
 
 module.exports = UsersService;

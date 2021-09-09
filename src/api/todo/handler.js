@@ -52,8 +52,15 @@ class ToDoHandler {
             data: {
                 id,
                 user_id,
+                name,
                 description,
-                tasks,
+                tasks: tasks.map((e) => {
+                    return {
+                        id: e.id,
+                        name: e.name,
+                        status: e.status ? 'done' : 'todo',
+                    };
+                }),
             },
         };
     }

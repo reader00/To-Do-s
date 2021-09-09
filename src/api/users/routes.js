@@ -4,6 +4,14 @@ const routes = (handler) => [
         path: '/users',
         handler: handler.postUserHandler,
     },
+    {
+        method: 'GET',
+        path: '/users/profile',
+        handler: handler.getUserProfileHandler,
+        options: {
+            auth: 'todo_list_strategy',
+        },
+    },
 ];
 
 module.exports = routes;

@@ -25,6 +25,26 @@ class UsersHandler {
         res.code(201);
         return res;
     }
+
+    async getUserProfileHandler(req, h) {
+        const { id: owner } = req.auth.credentials;
+        return this.getUserById(req, h, owner);
+    }
+
+    async getUserById(req, h, owner = false) {
+        const id = owner ? owner : req.params.userId;
+        const user = await this._service.getUserById(id);
+        console.log('asd', user);
+        const res = h.response({
+            status: 'success',
+            data: {
+                user,
+            },
+        });
+
+        res.code(200);
+        return res;
+    }
 }
 
 module.exports = UsersHandler;
