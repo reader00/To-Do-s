@@ -10,6 +10,7 @@ class UsersHandler {
 
     async postUserHandler(req, h) {
         await this._validator.validateUserPayload(req.payload);
+        console.log(req.payload);
 
         const userId = await this._service.addUser(req.payload);
 

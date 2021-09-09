@@ -19,7 +19,7 @@ class TasksService {
         const id = `task-${nanoid(16)}`;
 
         const query = {
-            text: 'INSERT INTO task(id, to_do_id, name, status) VALUES($1, $2, $3, $4) RETURNING id',
+            text: 'INSERT INTO tasks(id, to_do_id, name, status) VALUES($1, $2, $3, $4) RETURNING id',
             values: [id, toDoId, name, false],
         };
 

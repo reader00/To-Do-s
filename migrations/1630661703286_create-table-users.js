@@ -10,7 +10,7 @@ exports.up = (pgm) => {
             type: 'VARCHAR(50)',
             notNull: true,
         },
-        fullname: {
+        username: {
             type: 'TEXT',
             notNull: true,
         },

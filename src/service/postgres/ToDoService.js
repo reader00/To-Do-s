@@ -31,7 +31,6 @@ class ToDoService {
         const result = await this._pool.query(query);
 
         if (!result.rowCount) {
-            console.log(`id:${toDoId}`);
             throw new NotFoundError('To-do not found!');
         }
 

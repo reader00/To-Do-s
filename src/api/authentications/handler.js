@@ -1,8 +1,10 @@
 const autoBind = require('auto-bind');
 
 class AuthenticationsHandler {
-    constructor(service, validator) {
+    constructor(service, userService, tokenManager, validator) {
         this._service = service;
+        this._usersService = userService;
+        this._tokenManager = tokenManager;
         this._validator = validator;
 
         autoBind(this);

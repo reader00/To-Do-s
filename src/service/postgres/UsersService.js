@@ -35,33 +35,32 @@ class UsersService {
         return id;
     }
 
-    async verifyUsername(email) {
+    async verifyEmailAndUsername(email, username) {
         const query = {
-            text: 'SELECT email FROM users WHERE email = $1',
-            values: [email],
+            text: 'SELECT email, username FROM users WHERE email = $1 OR username = $2',
+            values: [email, username],
         };
 
         const result = await this._pool.query(query);
 
         if (result.rowCount) {
             throw new InvariantError(
-                'Failed to add a user. The email has been used.'
+                'Failed to add a user. The email or username has been used.'
             );
         }
     }
 
-    async addUser({ email, password, fullname }) {
-        await this.verifyUsername(email);
+    async addUser({ email, password, username }) {
+        await this.verifyEmailAndUsername(email, username);
 
         const id = `user-${nanoid(16)}`;
         const hashedPassword = await bcrypt.hash(password, 16);
         const query = {
-            text: 'INSERT INTO users(id, fullname, email, password, role_id) VALUES($1, $2, $3, $4, $5) RETURNING id',
-            values: [id, fullname, email, hashedPassword, 2],
+            text: 'INSERT INTO users(id, username, email, password, role_id) VALUES($1, $2, $3, $4, $5) RETURNING id',
+            values: [id, username, email, hashedPassword, 2],
         };
 
         const result = await this._pool.query(query);
-        console.log(result);
 
         if (!result.rowCount) {
             throw new InvariantError('Failed to add a user.');

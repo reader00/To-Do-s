@@ -10,6 +10,7 @@ class ToDoHandler {
     }
 
     async postToDoHandler(req, h) {
+        console.log(req.payload);
         this._validator.validateToDoPayload(req.payload);
         const { id: owner } = req.auth.credentials;
 
@@ -42,16 +43,17 @@ class ToDoHandler {
         const { toDoId } = req.params;
         const { id: owner } = req.auth.credentials;
 
-        const toDo = await this._service.getToDoById(owner);
-        const tasks = await this._tasksService.getTasks(toDoId);
+        const { id, user_id, name, description } =
+            await this._service.getToDoById(toDoId);
+        const tasks = await this._tasksService.getTasks(toDoId, owner);
 
         return {
             status: 'success',
             data: {
-                toDo,
-                tasks: {
-                    tasks,
-                },
+                id,
+                user_id,
+                description,
+                tasks,
             },
         };
     }

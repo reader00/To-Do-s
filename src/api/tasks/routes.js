@@ -1,7 +1,7 @@
 const routes = (handler) => [
     {
         method: 'POST',
-        path: '/tasks',
+        path: '/tasks/{toDoId}',
         handler: handler.postTaskHandler,
         options: {
             auth: 'todo_list_strategy',

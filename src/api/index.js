@@ -48,7 +48,7 @@ module.exports = [
     {
         plugin: todos,
         options: {
-            toDosService,
+            service: toDosService,
             tasksService,
             validator: ToDosValidator,
         },
@@ -56,7 +56,7 @@ module.exports = [
     {
         plugin: tasks,
         options: {
-            tasksService,
+            service: tasksService,
             validator: tasksValidator,
         },
     },
