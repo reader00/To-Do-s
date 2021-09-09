@@ -12,9 +12,21 @@ const AuthenticationsService = require('../service/postgres/AuthenticationsServi
 const AuthenticationsValidator = require('../validator/authentications');
 const TokenManager = require('../tokenize/TokenManager');
 
+// Import To-do plugin
+const todos = require('./todo');
+const ToDosService = require('../service/postgres/ToDoService');
+const ToDosValidator = require('../validator/todo');
+
+// Import tasks plugin
+const tasks = require('./tasks');
+const TasksService = require('../service/postgres/TasksService');
+const tasksValidator = require('../validator/tasks');
+
 // Create instance
 const usersService = new UsersService();
 const authenticationsService = new AuthenticationsService();
+const toDosService = new ToDosService();
+const tasksService = new TasksService(toDosService);
 
 module.exports = [
     {
@@ -31,6 +43,21 @@ module.exports = [
             usersService,
             tokenManager: TokenManager,
             validator: AuthenticationsValidator,
+        },
+    },
+    {
+        plugin: todos,
+        options: {
+            toDosService,
+            tasksService,
+            validator: ToDosValidator,
+        },
+    },
+    {
+        plugin: tasks,
+        options: {
+            tasksService,
+            validator: tasksValidator,
         },
     },
 ];
